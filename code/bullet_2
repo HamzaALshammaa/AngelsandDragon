@@ -1,0 +1,69 @@
+import pygame
+from pygame.sprite import Sprite
+import random
+
+
+class Bullet(Sprite):
+    def __init__(self, ag):
+        super().__init__()
+        self.screen = ag.screen
+        self.settings = ag.settings
+        self.bullet = []
+        self.image1 = pygame.image.load('images/player/player fireball/ezgif-frame-001-removebg-preview.png')
+        self.image1 = pygame.transform.scale(self.image1, (80, 80))
+        self.image2 = pygame.image.load('images/player/player fireball/ezgif-frame-002-removebg-preview.png')
+        self.image2 = pygame.transform.scale(self.image2, (80, 80))
+        self.image3 = pygame.image.load('images/player/player fireball/ezgif-frame-003-removebg-preview.png')
+        self.image3 = pygame.transform.scale(self.image3, (80, 80))
+        self.image4 = pygame.image.load('images/player/player fireball/ezgif-frame-004-removebg-preview.png')
+        self.image4 = pygame.transform.scale(self.image4, (80, 80))
+        self.image5 = pygame.image.load('images/player/player fireball/ezgif-frame-005-removebg-preview.png')
+        self.image5 = pygame.transform.scale(self.image5, (80, 80))
+        self.image6 = pygame.image.load('images/player/player fireball/ezgif-frame-006-removebg-preview.png')
+        self.image6 = pygame.transform.scale(self.image6, (80, 80))
+        self.image7 = pygame.image.load('images/player/player fireball/ezgif-frame-007-removebg-preview.png')
+        self.image7 = pygame.transform.scale(self.image7, (80, 80))
+        self.image8 = pygame.image.load('images/player/player fireball/ezgif-frame-008-removebg-preview.png')
+        self.image8 = pygame.transform.scale(self.image8, (80, 80))
+        self.image9 = pygame.image.load('images/player/player fireball/ezgif-frame-009-removebg-preview.png')
+        self.image9 = pygame.transform.scale(self.image9, (80, 80))
+        self.image10 = pygame.image.load('images/player/player fireball/ezgif-frame-010-removebg-preview.png')
+        self.image10 = pygame.transform.scale(self.image10, (80, 80))
+
+        self.bullet.append(self.image1)
+        self.bullet.append(self.image2)
+        self.bullet.append(self.image3)
+        self.bullet.append(self.image4)
+        self.bullet.append(self.image5)
+        self.bullet.append(self.image6)
+        self.bullet.append(self.image7)
+        self.bullet.append(self.image8)
+        self.bullet.append(self.image9)
+        self.bullet.append(self.image10)
+
+        self.current_bullet = 0
+        self.bulletImage = self.bullet[self.current_bullet]
+        self.rect = self.bulletImage.get_rect()
+        self.rect.midtop = ag.player.rect.midtop
+        self.y = float(self.rect.y)
+
+    def bullet_sound(self):
+        x = random.randint(0, 4)
+        sound = ["./images/player/sounds/bullet_sound/Clash Royale Wizard Sounds (mp3cut.net).mp3",
+                 "./images/player/sounds/bullet_sound/Clash Royale Wizard Sounds (mp3cut.net) (1).mp3",
+                 "./images/player/sounds/bullet_sound/Clash Royale Wizard Sounds (mp3cut.net) (2).mp3",
+                 "./images/player/sounds/bullet_sound/Clash Royale Wizard Sounds (mp3cut.net) (4).mp3",
+                 "./images/player/sounds/bullet_sound/Clash Royale Wizard Sounds (mp3cut.net) (5).mp3"]
+        pygame.mixer.Channel(1).play(pygame.mixer.Sound(sound[x]))
+        pygame.mixer.Channel(1).set_volume(0.5)
+
+    def update(self):
+        self.y -= self.settings.bullet_speed
+        self.rect.y = self.y
+        self.current_bullet += 0.01
+        if self.current_bullet >= len(self.bullet):
+            self.current_bullet = 0
+        self.bulletImage = self.bullet[int(self.current_bullet)]
+
+    def draw_bullet(self):
+        pygame.draw.rect(self.screen, self.bullet, self.rect)
